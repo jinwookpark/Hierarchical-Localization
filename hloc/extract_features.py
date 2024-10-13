@@ -54,7 +54,7 @@ confs = {
         },
     },
     'superpoint_inloc': {
-        'output': 'feats-superpoint-n4096-r1600',
+        'output': 'feats-superpoint-n8192-r3200',
         'model': {
             'name': 'superpoint',
             'nms_radius': 4,
