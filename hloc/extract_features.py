@@ -58,11 +58,11 @@ confs = {
         'model': {
             'name': 'superpoint',
             'nms_radius': 4,
-            'max_keypoints': 4096,
+            'max_keypoints': 8192,
         },
         'preprocessing': {
             'grayscale': True,
-            'resize_max': 1600,
+            'resize_max': 3200,
         },
     },
     'r2d2': {
@@ -94,7 +94,7 @@ confs = {
         },
         'preprocessing': {
             'grayscale': True,
-            'resize_max': 1600,
+            'resize_max': 3200,
         },
     },
     'sosnet': {
