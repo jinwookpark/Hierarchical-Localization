@@ -27,15 +27,16 @@ line using their name. Each is a dictionary with the following entries:
 """
 confs = {
     "superpoint_aachen": {
-        "output": "feats-superpoint-n4096-r1024",
+        "output": "feats-superpoint-n5000-r1600",
         "model": {
             "name": "superpoint",
-            "nms_radius": 3,
-            "max_keypoints": 4096,
+            "nms_radius": 4,
+            "max_keypoints": 5000,
+            "fix_sampling": True,
         },
         "preprocessing": {
             "grayscale": True,
-            "resize_max": 1024,
+            "resize_max": 1600,
         },
     },
     # Resize images to 1600px even if they are originally smaller.
@@ -57,12 +58,13 @@ confs = {
         "output": "feats-superpoint-n4096-r1600",
         "model": {
             "name": "superpoint",
-            "nms_radius": 4,
-            "max_keypoints": 4096,
+            "nms_radius": 7,
+            "max_keypoints": 8000,
+            "fix_sampling": True,
         },
         "preprocessing": {
             "grayscale": True,
-            "resize_max": 1600,
+            "resize_max": 3200,
         },
     },
     "r2d2": {
