@@ -17,9 +17,6 @@ def main(
     features: Optional[Path] = None,
     window_size: Optional[int] = 10,
     quadratic_overlap: bool = True,
-    eyefish_overlap: bool = True,
-    eyefish_num: int = 12,
-    eyefish_spot: int = 3,
     use_loop_closure: bool = False,
     retrieval_path: Optional[Union[Path, str]] = None,
     retrieval_interval: Optional[int] = 2,
@@ -77,15 +74,6 @@ def main(
                 if q > window_size and i + q < N:
                     pairs.append((names_q[i], names_q[i + q]))
 
-            if eyefish_overlap:                
-                for spot_num in range(1, eyefish_spot + 1):
-                    for ws in range(0,window_size+1):
-                        q = (spot_num*eyefish_num) + ws                        
-                        if i + q < N:                            
-                            pairs.append((names_q[i], names_q[i + q]))
-                            print(f'spot_num:{spot_num}   ws:{ws}   q:{q}')
-                            print(names_q[i], names_q[i + q])
-
     if use_loop_closure:
         retrieval_pairs_tmp: Path = output.parent / "retrieval-pairs-tmp.txt"
 
@@ -115,19 +103,6 @@ def main(
                         and i * retrieval_interval + 2**k < N
                     ):
                         match_mask[i][i * retrieval_interval + 2**k] = 1
-
-                if eyefish_overlap:
-                    for spot_num in range(1, eyefish_spot + 1):
-                        if (
-                            i * retrieval_interval - spot_num*eyefish_num*k >= 0
-                            and i * retrieval_interval - spot_num*eyefish_num*k < N
-                        ):
-                            match_mask[i][i * retrieval_interval - spot_num*eyefish_num*k] = 1
-                        if (
-                            i * retrieval_interval + spot_num*eyefish_num*k >= 0
-                            and i * retrieval_interval + spot_num*eyefish_num*k < N
-                        ):
-                            match_mask[i][i * retrieval_interval + spot_num*eyefish_num*k] = 1
 
         pairs_from_retrieval.main(
             retrieval_path,
@@ -168,21 +143,5 @@ if __name__ == "__main__":
         action="store_true",
         help="Whether to match images against their quadratic neighbors.",
     )
-
-    parser.add_argument(
-        "--eyefish_overlap",
-        action="store_true",
-        help="Whether to match images against their 360 neighbors.",
-    )
-    parser.add_argument(
-        "--eyefish_num",
-        action="store_true",
-        help="eyefish num at one spot",
-    )
-    parser.add_argument(
-        "--eyefish_spot",
-        action="store_true",
-        help="eyefish spot num",
-    )    
     args = parser.parse_args()
     main(**args.__dict__)
