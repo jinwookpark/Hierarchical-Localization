@@ -58,6 +58,8 @@ class QueryLocalizer:
     def localize(self, points2D_all, points2D_idxs, points3D_id, query_camera):
         points2D = points2D_all[points2D_idxs]
         points3D = [self.reconstruction.points3D[j].xyz for j in points3D_id]
+        if points2D.shape[0] == 0:
+            return None
         ret = pycolmap.estimate_and_refine_absolute_pose(
             points2D,
             points3D,
@@ -202,7 +204,7 @@ def main(
                 cam_from_world[qname] = ret["cam_from_world"]
             else:
                 closest = reference_sfm.images[db_ids[0]]
-                cam_from_world[qname] = closest.cam_from_world
+                cam_from_world[qname] = closest.cam_from_world()
             log["covisibility_clustering"] = covisibility_clustering
             logs["loc"][qname] = log
 
